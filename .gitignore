@@ -1,1 +1,6 @@
+arith_lex.py
+arith_parser.py
+arith.out.fff
+arith.out.requires
 venv/
+__pycache__/

@@ -1,17 +1,32 @@
-START := <BOF> expr <EOF>;
+%%inline
+class Color:
+    def __init__(self, color: str, value: str):
+        self.color = color
+        self.value = value
+
+def gen(color, x):
+    return Color(color, x.value)
+
+INT = "blue"
+OP = "red"
+%%
+
+START := <BOF> expr <EOF> { $2 };
 
 arith[op, lower] :=
-  arith[op, lower] op lower
-  | lower
+  arith[op, lower] op lower { [$1, gen(OP, $2), $3] }
+  | lower { $1 }
   ;
 atom :=
-  <int>
-  | "(" expr ")"
+  <int> { gen(INT, $1) }
+  | "(" expr ")" { $2 }
   ;
 expr <=>
-  arith[("*"|"/"),
-    arith[("+"|"-"),
+  arith[
+    ("*"|"/"),
+    arith[
+      ("+"|"-"),
       atom]]
   ;
 
-_ := space;
+_ := <whitespace>;
