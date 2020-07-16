@@ -7,4 +7,5 @@ pip install virtualenv
 virtualenv venv
 . venv/bin/activate
 pip -r requirements.txt
+python test.py
 ```
