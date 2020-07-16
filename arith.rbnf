@@ -1,0 +1,17 @@
+START := <BOF> expr <EOF>;
+
+arith[op, lower] :=
+  arith[op, lower] op lower
+  | lower
+  ;
+atom :=
+  <int>
+  | "(" expr ")"
+  ;
+expr <=>
+  arith[("*"|"/"),
+    arith[("+"|"-"),
+      atom]]
+  ;
+
+_ := space;
