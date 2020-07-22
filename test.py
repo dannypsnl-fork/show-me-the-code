@@ -7,12 +7,15 @@ def parse(code):
     parser = mk_parser()
     return parser(None, Tokens(tokens))
 
-def printC(c):
+def flatten(c, result):
     if isinstance(c, Color):
-        print(colored(c.value, c.color), end=' ')
-    else:
+        result.append(c)
+    elif isinstance(c, list):
         for cn in c:
-            printC(cn)
+            flatten(cn, result)
 
 got = parse("1 * 2 + 3 * 4")
-printC(got)
+flat_list = []
+flatten(got, flat_list)
+for c in flat_list:
+    print(colored(c.value, c.color), end=' ')
